@@ -1,16 +1,10 @@
 import json
-import pandas as pd
-with open("data/data.json", encoding="utf-8") as f:
+
+with open("dados/data.json", encoding="utf-8") as f:
     raw = json.load(f)
-df = pd.DataFrame([
-    {"nivel_m": float(nivel.removesuffix("m").replace("_", ".")), "bairro": bairro, **valores}
-    for nivel, bairros in raw.items()
-    for bairro, valores in bairros.items()
-    ])
 
 def limpeza_json_(json_):
     novo_json = {}
-    aux = 0
     for bairro, val in json_['10_0m'].items():
         novo_json[bairro] = {
                             "total_buildings": val['total_buildings'],
