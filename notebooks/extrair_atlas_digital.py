@@ -15,8 +15,8 @@ from pathlib import Path
 import pandas as pd
 
 UF = "RS"
-DATA_INICIO = pd.Timestamp(year=2024, month=4, day=1)
-DATA_FIM = pd.Timestamp(year=2024, month=5, day=30)
+DATA_INICIO = pd.Timestamp(year=2024, month=4, day=21)
+DATA_FIM = pd.Timestamp(year=2024, month=5, day=21)
 
 COL_UF = "Sigla_UF"
 COL_DATA_EVENTO = "Data_Evento"
@@ -26,6 +26,8 @@ FORMATO_DATA = "%m/%d/%Y"
 FORMATO_DATA_EXCEL = "mm/dd/yyyy"
 
 COLUNAS_TEXTO = ["Protocolo_S2iD", "Setores Censitários"]
+
+TEXTO_NULL = "(null)"
 
 
 def converter_data(serie: pd.Series) -> pd.Series:
@@ -89,14 +91,20 @@ def main() -> None:
 
     resultado = df[eh_rs & no_periodo].copy()
 
+    for col in resultado.select_dtypes(include=["object", "string"]).columns:
+        em_branco = resultado[col].astype(str).str.strip() == ""
+        resultado.loc[em_branco & resultado[col].notna(), col] = pd.NA
+
+
     if saida.suffix.lower() == ".csv":
         for col in resultado.columns:
             if pd.api.types.is_datetime64_any_dtype(resultado[col]):
                 resultado[col] = resultado[col].dt.strftime(FORMATO_DATA)
-        resultado.to_csv(saida, index=False, encoding="utf-8-sig")
+        resultado.to_csv(saida, index=False, encoding="utf-8-sig", na_rep=TEXTO_NULL)
     else:
         with pd.ExcelWriter(saida, engine="openpyxl") as writer:
-            resultado.to_excel(writer, index=False, sheet_name="RS_abr-mai2024")
+            resultado.to_excel(writer, index=False, sheet_name="RS_abr-mai2024",
+                              na_rep=TEXTO_NULL)
             ws = writer.sheets["RS_abr-mai2024"]
             for idx, col in enumerate(resultado.columns, start=1):
                 if pd.api.types.is_datetime64_any_dtype(resultado[col]):
