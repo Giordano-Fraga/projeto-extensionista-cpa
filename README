@@ -4,3 +4,14 @@ Integrantes:
     Giordano Fraga Faciolli
     Lucas Candemil Chagas
     Pedro Duarte do Santos
+
+COMO RODAR:
+vá para a pasta "dashboard"
+
+primeiramente, verifique-se que foi baixado o "requirements.txt", utilizando o seguinte comando:
+
+pip install -r requirements.txt
+
+logo após, para rodar o dashboard, rode:
+
+streamlit run Tela_1.py
