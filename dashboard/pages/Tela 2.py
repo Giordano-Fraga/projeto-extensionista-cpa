@@ -26,7 +26,7 @@ def coluna_ebap(dia, colunas):
 
 # ler arquivos
 # ABRIGOS
-abrigos = gpd.read_file("dados/abrigos_unificado.gpkg")
+abrigos = gpd.read_file("../dados/abrigos_unificado.gpkg")
 abrigos["lat"] = abrigos.geometry.y
 abrigos["lon"] = abrigos.geometry.x
 abrigos = pd.DataFrame(abrigos.drop(columns="geometry"))
@@ -36,7 +36,7 @@ abrigos["data_ordem"] = pd.to_datetime(abrigos["data"]+"/2024", format="%d/%m/%Y
 abrigos = abrigos.dropna(subset=["data_ordem"])
 
 # EBAPs
-ebaps = gpd.read_file("dados/rmpa_crise_sb_ebaps_limpo.gpkg")
+ebaps = gpd.read_file("../dados/rmpa_crise_sb_ebaps_limpo.gpkg")
 ebaps["lat"] = ebaps.geometry.y
 ebaps["lon"] = ebaps.geometry.x
 ebaps = pd.DataFrame(ebaps.drop(columns="geometry"))
@@ -50,7 +50,7 @@ colunas_situ.sort()
 cores_situacao = {"Operante": "green", "Inoperante": "red", "APURAR": "orange"}
 
 # PATRIMONIO CULTURAL
-patrimonio = gpd.read_file("dados/rs_crise_patrimonio_cultural_limpo.gpkg")
+patrimonio = gpd.read_file("../dados/rs_crise_patrimonio_cultural_limpo.gpkg")
 patrimonio["lat"] = patrimonio.geometry.y
 patrimonio["lon"] = patrimonio.geometry.x
 patrimonio = pd.DataFrame(patrimonio.drop(columns="geometry"))
@@ -58,7 +58,7 @@ patrimonio = pd.DataFrame(patrimonio.drop(columns="geometry"))
 cores_esfera = {"Municipal": "purple", "Estadual": "magenta", "Federal": "brown"}
 
 # registros do atlas
-atlas = pd.read_csv("dados/ad_menor_null.csv", encoding="utf-8-sig")
+atlas = pd.read_csv("../dados/ad_menor_null.csv", encoding="utf-8-sig")
 atlas["Data_Evento"] = pd.to_datetime(atlas["Data_Evento"], format="%m/%d/%Y", errors="coerce")
 
 colunas_numericas = ["DH_MORTOS", "DH_FERIDOS", "DH_DESAPARECIDOS", "DH_total_danos_humanos_diretos", "DM_total_danos_materiais", "PE_PLePR"]

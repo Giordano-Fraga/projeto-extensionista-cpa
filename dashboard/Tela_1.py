@@ -25,7 +25,7 @@ def pegar_valores(dados_bairro, nivel):
     return pessoas, predios #ver depois
 
 # ler arquivo
-arquivo = open("dados/dados_limpos.json", encoding="utf-8")
+arquivo = open("../dados/dados_limpos.json", encoding="utf-8")
 dados = json.load(arquivo)
 arquivo.close()
 
